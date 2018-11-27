@@ -11,21 +11,18 @@ export default class Pot extends Component {
 		return (
 			<Card>
 				<div class={style.cardHeader}>
-					<h2 class=" mdc-typography--title">{this.props.item.title}</h2>
-					<div class=" mdc-typography--caption">{this.props.item.vendor}</div>
-					<div class=" mdc-typography--caption">{this.props.item.price}</div>
+					<h2 class=" mdc-typography--title">{this.props.item.vendor}</h2>
+					<div class=" mdc-typography--caption">{this.props.item.title}</div>
+					<div class=" mdc-typography--caption">{`Price: ${this.props.item.price}`}</div>
 				</div>
 				<div class={style.cardBody}>
-					<img src={this.props.item.image}></img>
+					<img style="width:200px" src={this.props.item.image}></img>
 				</div>
 				<Card.Actions>
-
 					<Card.ActionButton default>
 						<Icon>add</Icon> Add to list
 					</Card.ActionButton>
-				
 				</Card.Actions>
-
 			</Card>
 		);
 	}
