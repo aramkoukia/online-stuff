@@ -1,5 +1,4 @@
 import { h, Component } from 'preact';
-import Card from 'preact-material-components/Card';
 import 'preact-material-components/Card/style.css';
 import 'preact-material-components/Button/style.css';
 import Pot from '../pot/pot';
@@ -46,6 +45,8 @@ export default class PotList extends Component {
 		} else {
 			return (
 				<div>
+					<h1>Good stuff!</h1>
+
 				{items.map(item => (					
 					<Pot item={item} />
 				))}

@@ -4,10 +4,15 @@ import 'preact-material-components/Card/style.css';
 import 'preact-material-components/Button/style.css';
 import Icon from 'preact-material-components/Icon';
 import style from './style';
+import RatingStars from '../rating-stars/rating-stars';
 
 export default class Pot extends Component {
 	
 	render() {
+		const ratingChanged = (newRating) => {
+			console.log(newRating)
+		}
+	
 		return (
 			<Card>
 				<div class={style.cardHeader}>
@@ -16,11 +21,18 @@ export default class Pot extends Component {
 					<div class=" mdc-typography--caption">{`Price: ${this.props.item.price}`}</div>
 				</div>
 				<div class={style.cardBody}>
-					<img style="width:200px" src={this.props.item.image}></img>
 				</div>
+				<Card.Media className="card-media">
+					<img style="width:200px" src={this.props.item.image}></img>
+				</Card.Media>
 				<Card.Actions>
 					<Card.ActionButton default>
-						<Icon>add</Icon> Add to list
+					<RatingStars
+						count={5}
+						onChange={ratingChanged}
+						size={24}
+						color2={'#ffd700'} />
+						{/* <Icon>add</Icon> Add to list */}
 					</Card.ActionButton>
 				</Card.Actions>
 			</Card>

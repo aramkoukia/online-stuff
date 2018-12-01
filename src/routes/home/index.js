@@ -9,8 +9,6 @@ export default class Home extends Component {
 	render() {
 		return (
 			<div class={`${style.home} page`}>
-				<h1>Top rated</h1>
-
 				<PotList />
 				{/* <Card>
 					<div class={style.cardHeader}>

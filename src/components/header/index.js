@@ -31,7 +31,7 @@ export default class Header extends Component {
 								menu
 							</TopAppBar.Icon>
 							<TopAppBar.Title style={ pointerCursor } menu onClick={this.goHome}>
-								Rate My Pot
+								Good Pot!
 							</TopAppBar.Title>
 						</TopAppBar.Section>															
 						<TopAppBar.Section align-end shrink-to-fit>
