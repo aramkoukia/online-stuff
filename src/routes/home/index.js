@@ -3,14 +3,14 @@ import { h, Component } from 'preact';
 import 'preact-material-components/Card/style.css';
 import 'preact-material-components/Button/style.css';
 import style from './style';
-import PotList from '../../components/pot-list/pot-list'
+import PotList from '../../components/pot-list/pot-list';
 
 export default class Home extends Component {
-	render() {
-		return (
-			<div class={`${style.home} page`}>
-				<PotList />
-				{/* <Card>
+  render() {
+    return (
+      <div className={`${style.home} page`}>
+        <PotList />
+        {/* <Card>
 					<div class={style.cardHeader}>
 						<h2 class=" mdc-typography--title">Home card</h2>
 						<div class=" mdc-typography--caption">Welcome to home route</div>
@@ -22,7 +22,7 @@ export default class Home extends Component {
 						<Card.ActionButton>OKAY</Card.ActionButton>
 					</Card.Actions>
 				</Card> */}
-			</div>
-		);
-	}
+      </div>
+    );
+  }
 }

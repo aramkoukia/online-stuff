@@ -13,23 +13,23 @@ export default class App extends Component {
 	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
 	 *	@param {string} event.url	The newly routed URL
 	 */
-	handleRoute = e => {
-		this.setState({
-			currentUrl: e.url
-		});
+	handleRoute = (e) => {
+	  this.setState({
+	    currentUrl: e.url,
+	  });
 	};
 
 	render() {
-		return (
-			<div id="app">
-				<Header selectedRoute={this.state.currentUrl}/>
-				<Router onChange={this.handleRoute}>
-					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
-                     <NotFound default />
-				</Router>
-			</div>
-		);
+	  return (
+  <div id="app">
+    <Header selectedRoute={this.state.currentUrl} />
+    <Router onChange={this.handleRoute}>
+      <Home path="/" />
+      <Profile path="/profile/" user="me" />
+      <Profile path="/profile/:user" />
+      <NotFound default />
+    </Router>
+  </div>
+	  );
 	}
 }
