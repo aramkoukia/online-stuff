@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import 'preact-material-components/Card/style.css';
 import 'preact-material-components/Button/style.css';
+import LayoutGrid from 'preact-material-components/LayoutGrid';
+import 'preact-material-components/LayoutGrid/style.css';
 import Pot from '../pot/pot';
 
 export default class PotList extends Component {
@@ -51,9 +53,15 @@ export default class PotList extends Component {
     return (
       <div>
         <h1>Good stuff!</h1>
-        {items.map(item => (
-          <Pot item={item} />
-        ))}
+        <LayoutGrid>
+          <LayoutGrid.Inner>
+            {items.map(item => (
+              <LayoutGrid.Cell cols="3">
+                <Pot item={item} />
+              </LayoutGrid.Cell>
+            ))}
+          </LayoutGrid.Inner>
+        </LayoutGrid>
       </div>
     );
   }
