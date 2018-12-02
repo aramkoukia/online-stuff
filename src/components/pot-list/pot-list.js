@@ -4,6 +4,7 @@ import 'preact-material-components/Button/style.css';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import 'preact-material-components/LayoutGrid/style.css';
 import Pot from '../pot/pot';
+// import style from './pot-list.css';
 
 export default class PotList extends Component {
   constructor(props) {
