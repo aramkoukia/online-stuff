@@ -6,7 +6,6 @@ import 'preact-material-components/Dialog/style.css';
 import 'preact-material-components/Drawer/style.css';
 import 'preact-material-components/List/style.css';
 import 'preact-material-components/TopAppBar/style.css';
-import { GoogleLogin } from 'react-google-login';
 // import style from './style';
 
 export default class Header extends Component {
@@ -20,34 +19,31 @@ export default class Header extends Component {
 	goSignUp = this.linkTo('/SignUp');
 
 	render(props) {
-      console.log(props.selectedRoute);
-      const pointerCursor = { cursor: 'pointer' };
-     return (
+	  console.log(props.selectedRoute);
+	  const pointerCursor = { cursor: 'pointer' };
+
+
+	  return (
   <div>
-    <TopAppBar className="topappbar">
-      <TopAppBar.Row>
-        <TopAppBar.Section align-start>
-          <TopAppBar.Icon style={pointerCursor} menu onClick={this.goHome}>
-            menu
-          </TopAppBar.Icon>
-          <TopAppBar.Title style={pointerCursor} menu onClick={this.goHome}>
-            Good Pot!
-          </TopAppBar.Title>
-        </TopAppBar.Section>
-        <TopAppBar.Section align-end shrink-to-fit>
-          <TopAppBar.Title style={pointerCursor} menu>
-            <GoogleLogin
-              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-              buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-            />
-          </TopAppBar.Title>
-          <TopAppBar.Title style={pointerCursor} menu onClick={this.goSignUp}>Join</TopAppBar.Title>
-        </TopAppBar.Section>
-      </TopAppBar.Row>
-    </TopAppBar>
-  </div>
-      );
+         <TopAppBar className="topappbar">
+           <TopAppBar.Row>
+             <TopAppBar.Section align-start>
+               <TopAppBar.Icon style={pointerCursor} menu onClick={this.goHome}>
+                 menu
+               </TopAppBar.Icon>
+               <TopAppBar.Title style={pointerCursor} menu onClick={this.goHome}>
+                 Good Pot!
+               </TopAppBar.Title>
+             </TopAppBar.Section>
+             <TopAppBar.Section align-end shrink-to-fit>
+               <TopAppBar.Title style={pointerCursor} menu>
+
+               </TopAppBar.Title>
+               {/* <TopAppBar.Title style={pointerCursor} menu onClick={this.goSignUp}>Join</TopAppBar.Title> */}
+             </TopAppBar.Section>
+           </TopAppBar.Row>
+         </TopAppBar>
+       </div>
+	  );
 	}
 }

@@ -7,6 +7,14 @@ import Profile from '../routes/profile';
 import NotFound from '../routes/404';
 // import Home from 'async!../routes/home';
 // import Profile from 'async!../routes/profile';
+import io from 'socket.io-client'
+import OAuth from './OAuth'
+import {
+	API_URL
+} from './config'
+import './App.css'
+const socket = io(API_URL)
+const providers = ['twitter', 'google', 'facebook', 'github']
 
 export default class App extends Component {
 	/** Gets fired when the route changes.
@@ -21,7 +29,16 @@ export default class App extends Component {
 
 	render() {
 	  return (
-  <div id="app">
+			<div id="app">
+				<div className={'container'}>
+          {providers.map(provider =>
+            <OAuth
+              provider={provider}
+              key={provider}
+              socket={socket}
+            />
+          )}
+        </div>
     <Header selectedRoute={this.state.currentUrl} />
     <Router onChange={this.handleRoute}>
       <Home path="/" />
