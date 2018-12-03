@@ -32,5 +32,7 @@
     "preact-material-components": "^1.4.3",
     "preact-router": "^2.5.5",
     "prop-types": "^15.6.2",
+    "react-fontawesome": "^1.6.1",
+    "socket.io-client": "^2.2.0"
   }
 }

@@ -1,84 +1,83 @@
+import { h, Component } from 'preact';
+import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
+import { API_URL } from './config';
+
 export default class OAuth extends Component {
-
-  // previous lifecycle methods
-
-  // Routinely checks the popup to re-enable the login button
-  // if the user closes the popup without authenticating.
-  checkPopup() {
-    const check = setInterval(() => {
-      const {
-        popup
-      } = this
-      if (!popup || popup.closed || popup.closed === undefined) {
-        clearInterval(check)
-        this.setState({
-          disabled: ''
-        })
-      }
-    }, 1000)
+  state = {
+    user: {},
+    disabled: '',
   }
 
-  // Launches the popup by making a request to the server and then
-  // passes along the socket id so it can be used to send back user
-  // data to the appropriate socket on the connected client.
+  componentDidMount() {
+    const { socket, provider } = this.props;
+
+    socket.on(provider, (user) => {
+      this.popup.close();
+      this.setState({ user });
+    });
+  }
+
   openPopup() {
-    const {
-      provider,
-      socket
-    } = this.props
-    const width = 600,
-      height = 600
-    const left = (window.innerWidth / 2) - (width / 2)
-    const top = (window.innerHeight / 2) - (height / 2)
-    const url = `${API_URL}/${provider}?socketId=${socket.id}`
+    const { provider, socket } = this.props;
+    const width = 600;
+    const height = 600;
+    const left = (window.innerWidth / 2) - (width / 2);
+    const top = (window.innerHeight / 2) - (height / 2);
+    const url = `${API_URL}/${provider}?socketId=${socket.id}`;
 
     return window.open(url, '',
       `toolbar=no, location=no, directories=no, status=no, menubar=no,
       scrollbars=no, resizable=no, copyhistory=no, width=${width},
-      height=${height}, top=${top}, left=${left}`
-    )
+      height=${height}, top=${top}, left=${left}`,);
   }
 
-  // Kicks off the processes of opening the popup on the server and listening
-  // to the popup. It also disables the login button so the user can not
-  // attempt to login to the provider twice.
-  startAuth(e) {
+  startAuth = () => {
     if (!this.state.disabled) {
-      e.preventDefault()
-      this.popup = this.openPopup()
-      this.checkPopup()
-      this.setState({
-        disabled: 'disabled'
-      })
+      this.popup = this.openPopup();
+      this.checkPopup();
+      this.setState({ disabled: 'disabled' });
     }
   }
 
-  closeCard() {
-    this.setState({
-      user: {}
-    })
+  closeCard = () => {
+    this.setState({ user: {} });
+  }
+
+  checkPopup() {
+    const check = setInterval(() => {
+      const { popup } = this;
+      if (!popup || popup.closed || popup.closed === undefined) {
+        clearInterval(check);
+        this.setState({ disabled: '' });
+      }
+    }, 1000);
   }
 
   render() {
-    const { name, photo } = this.state.user
-    const { provider } = this.props
-    const { disabled } = this.state
+    const { name, photo } = this.state.user;
+    const { provider } = this.props;
+    const { disabled } = this.state;
+    const atSymbol = provider === 'twitter' ? '@' : '';
 
     return (
       <div>
         {name
-          ? <div className={'card'}>
+          ? (
+<div className={'card'}>
             <img src={photo} alt={name} />
             <FontAwesome
               name={'times-circle'}
               className={'close'}
-              onClick={this.closeCard.bind(this)}
+              onClick={this.closeCard}
             />
-            <h4>{name}</h4>
+            <h4>{`${atSymbol}${name}`}</h4>
           </div>
-          : <div className={'button-wrapper fadein-fast'}>
+)
+          : (
+<div className={'button-wrapper fadein-fast'}>
             <button
-              onClick={this.startAuth.bind(this)}
+              onClick={this.startAuth}
               className={`${provider} ${disabled} button`}
             >
               <FontAwesome
@@ -86,8 +85,14 @@ export default class OAuth extends Component {
               />
             </button>
           </div>
+)
         }
       </div>
-    )
+    );
   }
 }
+
+OAuth.propTypes = {
+  provider: PropTypes.string.isRequired,
+  socket: PropTypes.object.isRequired,
+};

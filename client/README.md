@@ -9,7 +9,7 @@ Super performant `Material` app for preact world using [preact-material-componen
 npm install
 
 # serve with hot reload at localhost:8080
-npm run dev
+npm start -- -- --https
 
 # build for production with minification
 npm run build
