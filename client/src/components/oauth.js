@@ -1,5 +1,8 @@
 import { h, Component } from 'preact';
 import PropTypes from 'prop-types';
+// import Fab from 'preact-material-components/Fab';
+// import 'preact-material-components/Fab/style.css';
+import Icon from 'preact-material-components/Icon';
 import FontAwesome from 'react-fontawesome';
 import { API_URL } from './config';
 
@@ -65,7 +68,7 @@ export default class OAuth extends Component {
         {name
           ? (
 <div className={'card'}>
-            <img src={photo} alt={name} />
+              <img src={photo} alt={name} />
             <FontAwesome
               name={'times-circle'}
               className={'close'}
@@ -75,7 +78,8 @@ export default class OAuth extends Component {
           </div>
 )
           : (
-<div className={'button-wrapper fadein-fast'}>
+            <div className={'button-wrapper fadein-fast'}>
+              <Icon>account_circle</Icon>
             <button
               onClick={this.startAuth}
               className={`${provider} ${disabled} button`}

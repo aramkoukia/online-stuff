@@ -32,7 +32,9 @@
     "preact-material-components": "^1.4.3",
     "preact-router": "^2.5.5",
     "prop-types": "^15.6.2",
+    "react-facebook-login": "^4.1.1",
     "react-fontawesome": "^1.6.1",
-    "socket.io-client": "^2.2.0"
+    "react-google-login": "^4.0.0",
+    "react-twitter-auth": "0.0.12"
   }
 }
