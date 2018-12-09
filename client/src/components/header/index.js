@@ -1,16 +1,19 @@
 /* eslint-disable react/no-unused-state */
 import { h, Component } from 'preact';
-// import { route } from 'preact-router';
+import { route } from 'preact-router';
 import TopAppBar from 'preact-material-components/TopAppBar';
 import 'preact-material-components/Switch/style.css';
 import 'preact-material-components/Dialog/style.css';
 import 'preact-material-components/Drawer/style.css';
 import 'preact-material-components/List/style.css';
 import 'preact-material-components/TopAppBar/style.css';
+import Button from 'preact-material-components/Button';
+import 'preact-material-components/Button/style.css';
 import TwitterLogin from 'react-twitter-auth';
 import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 import config from '../config.json';
+import 'preact-material-components/Theme/style.css';
 
 // import style from './style';
 
@@ -20,14 +23,19 @@ export default class Header extends Component {
     this.state = { isAuthenticated: false, user: null };
   }
 
-  logout = () => {
-    this.setState({ isAuthenticated: false, user: null });
+  linkTo = path => () => {
+    route(path);
+    this.closeDrawer();
   };
 
   // eslint-disable-next-line react/sort-comp
   goHome = this.linkTo('/');
 
   goSignUp = this.linkTo('/SignUp');
+
+  logout = () => {
+    this.setState({ isAuthenticated: false, user: null });
+  };
 
   onFailure = () => {
     // console.log(error);
@@ -80,22 +88,24 @@ export default class Header extends Component {
 
   render() {
     const pointerCursor = { cursor: 'pointer' };
-    const { state } = this.state;
-    const content = !state.isAuthenticated ? (
+    // const { isAuthenticated } = this.state.isAuthenticated;
+    // const { user } = this.state.user;
+    const content = !!this.state.isAuthenticated ? (
       <div>
-        <div>
-          {state.user.email}
-        </div>
-        <div>
-
-          <button type="button" onClick={this.logout} className="button">
-            Log out
-          </button>
-        </div>
+        <TopAppBar.Section align-end shrink-to-fit>
+          <TopAppBar.Title>
+            {this.state.user.email}
+          </TopAppBar.Title>
+        </TopAppBar.Section>
+        <TopAppBar.Section align-end shrink-to-fit>
+          <TopAppBar.Title style={pointerCursor}>
+            <TopAppBar.Icon onClick={this.logout}>exit_to_app</TopAppBar.Icon>
+          </TopAppBar.Title>
+        </TopAppBar.Section>
       </div>)
       : (
         <div>
-          <TwitterLogin
+          {/* <TwitterLogin
             loginUrl="http://localhost:4000/api/v1/auth/twitter"
             onFailure={this.onFailure}
             onSuccess={this.twitterResponse}
@@ -106,7 +116,7 @@ export default class Header extends Component {
             autoLoad={false}
             fields="name,email,picture"
             callback={this.facebookResponse}
-          />
+          /> */}
           <GoogleLogin
             clientId={config.GOOGLE_CLIENT_ID}
             buttonText="Login"
