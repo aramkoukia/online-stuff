@@ -1,5 +1,6 @@
+/* eslint-disable react/no-unused-state */
 import { h, Component } from 'preact';
-import { route } from 'preact-router';
+// import { route } from 'preact-router';
 import TopAppBar from 'preact-material-components/TopAppBar';
 import 'preact-material-components/Switch/style.css';
 import 'preact-material-components/Dialog/style.css';
@@ -14,134 +15,123 @@ import config from '../config.json';
 // import style from './style';
 
 export default class Header extends Component {
-
   constructor() {
     super();
-    this.state = { isAuthenticated: false, user: null, token: "" };
+    this.state = { isAuthenticated: false, user: null };
   }
 
-  linkTo = path => () => {
-    route(path);
-    this.closeDrawer();
+  logout = () => {
+    this.setState({ isAuthenticated: false, user: null });
   };
 
+  // eslint-disable-next-line react/sort-comp
   goHome = this.linkTo('/');
 
   goSignUp = this.linkTo('/SignUp');
 
-    logout = () => {
-      this.setState({ isAuthenticated: false, token: '', user: null })
-    };
+  onFailure = () => {
+    // console.log(error);
+  };
 
-    onFailure = (error) => {
-      alert(error);
-    };
+  twitterResponse = (response) => {
+    const token = response.headers.get('x-auth-token');
+    response.json().then((user) => {
+      if (token) {
+        this.setState({ isAuthenticated: true, user });
+      }
+    });
+  };
 
-    twitterResponse = (response) => {
+  facebookResponse = (response) => {
+    const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
+    const options = {
+      method: 'POST',
+      body: tokenBlob,
+      mode: 'cors',
+      cache: 'default',
+    };
+    fetch('http://localhost:4000/api/v1/auth/facebook', options).then((res) => {
       const token = response.headers.get('x-auth-token');
-      response.json().then(user => {
+      res.json().then((user) => {
         if (token) {
-          this.setState({ isAuthenticated: true, user, token });
+          this.setState({ isAuthenticated: true, user });
         }
       });
-    };
+    });
+  };
 
-    facebookResponse = (response) => {
-      const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
-      const options = {
-        method: 'POST',
-        body: tokenBlob,
-        mode: 'cors',
-        cache: 'default',
-      };
-      fetch('http://localhost:4000/api/v1/auth/facebook', options).then(r => {
-        const token = r.headers.get('x-auth-token');
-        r.json().then(user => {
-          if (token) {
-            this.setState({ isAuthenticated: true, user, token });
-          }
-        });
-      })
+  googleResponse = (response) => {
+    const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
+    const options = {
+      method: 'POST',
+      body: tokenBlob,
+      mode: 'cors',
+      cache: 'default',
     };
+    fetch('http://localhost:4000/api/v1/auth/google', options).then((res) => {
+      const token = res.headers.get('x-auth-token');
+      res.json().then((user) => {
+        if (token) {
+          this.setState({ isAuthenticated: true, user });
+        }
+      });
+    });
+  };
 
-    googleResponse = (response) => {
-      const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
-      const options = {
-        method: 'POST',
-        body: tokenBlob,
-        mode: 'cors',
-        cache: 'default',
-      };
-      fetch('http://localhost:4000/api/v1/auth/google', options).then(r => {
-        const token = r.headers.get('x-auth-token');
-        r.json().then(user => {
-          if (token) {
-            this.setState({ isAuthenticated: true, user, token })
-          }
-        }).catch(function (e) {
-          console.log(e);
-        });
-      })
-    };
-
-  render(props) {
-    console.log(props.selectedRoute);
+  render() {
     const pointerCursor = { cursor: 'pointer' };
-      let content = !!this.state.isAuthenticated ?
-        (
-          <div>
-            <p>Authenticated</p>
-            <div>
-              {this.state.user.email}
-            </div>
-            <div>
-              <button onClick={this.logout} className="button">
-                Log out
-                        </button>
-            </div>
-          </div>
-        ) :
-        (
-          <div>
-            <TwitterLogin loginUrl="http://localhost:4000/api/v1/auth/twitter"
-              onFailure={this.onFailure} onSuccess={this.twitterResponse}
-              requestTokenUrl="http://localhost:4000/api/v1/auth/twitter/reverse" />
-            <FacebookLogin
-              appId={config.FACEBOOK_APP_ID}
-              autoLoad={false}
-              fields="name,email,picture"
-              callback={this.facebookResponse}
-            />
-            <GoogleLogin
-              clientId={config.GOOGLE_CLIENT_ID}
-              buttonText="Login"
-              onSuccess={this.googleResponse}
-              onFailure={this.onFailure}
-            />
-          </div>
-        );
-
-
-	  return (
+    const { state } = this.state;
+    const content = !state.isAuthenticated ? (
       <div>
-         <TopAppBar className="topappbar">
-           <TopAppBar.Row>
-             <TopAppBar.Section align-start>
-               {/* <TopAppBar.Icon style={pointerCursor} menu onClick={this.goHome}>
-                 menu
-               </TopAppBar.Icon> */}
-               <TopAppBar.Title style={pointerCursor} menu onClick={this.goHome}>
-                 Good Pot!
-               </TopAppBar.Title>
-             </TopAppBar.Section>
-             <TopAppBar.Section align-end shrink-to-fit>
-               <TopAppBar.Title style={pointerCursor}>
-                 {content}
-               </TopAppBar.Title>
-             </TopAppBar.Section>
-           </TopAppBar.Row>
-         </TopAppBar>
-       </div>
-	  );
-	}
+        <div>
+          {state.user.email}
+        </div>
+        <div>
+
+          <button type="button" onClick={this.logout} className="button">
+            Log out
+          </button>
+        </div>
+      </div>)
+      : (
+        <div>
+          <TwitterLogin
+            loginUrl="http://localhost:4000/api/v1/auth/twitter"
+            onFailure={this.onFailure}
+            onSuccess={this.twitterResponse}
+            requestTokenUrl="http://localhost:4000/api/v1/auth/twitter/reverse"
+          />
+          <FacebookLogin
+            appId={config.FACEBOOK_APP_ID}
+            autoLoad={false}
+            fields="name,email,picture"
+            callback={this.facebookResponse}
+          />
+          <GoogleLogin
+            clientId={config.GOOGLE_CLIENT_ID}
+            buttonText="Login"
+            onSuccess={this.googleResponse}
+            onFailure={this.onFailure}
+          />
+        </div>);
+
+    return (
+      <div>
+        <TopAppBar className="topappbar">
+          <TopAppBar.Row>
+            <TopAppBar.Section align-start>
+              <TopAppBar.Title style={pointerCursor} menu onClick={this.goHome}>
+                Good Pot!
+              </TopAppBar.Title>
+            </TopAppBar.Section>
+            <TopAppBar.Section align-end shrink-to-fit>
+              <TopAppBar.Title style={pointerCursor}>
+                {content}
+              </TopAppBar.Title>
+            </TopAppBar.Section>
+          </TopAppBar.Row>
+        </TopAppBar>
+      </div>
+    );
+  }
 }
