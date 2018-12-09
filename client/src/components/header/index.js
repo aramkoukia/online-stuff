@@ -78,6 +78,8 @@ export default class Header extends Component {
           if (token) {
             this.setState({ isAuthenticated: true, user, token })
           }
+        }).catch(function (e) {
+          console.log(e);
         });
       })
     };
