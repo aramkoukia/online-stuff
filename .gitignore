@@ -64,3 +64,4 @@ yarn.lock
 package-lock.json
 client/src/components/config.json
 server/config.json
+server/env/environment.js
