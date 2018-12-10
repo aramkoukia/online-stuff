@@ -11,10 +11,12 @@ import 'preact-material-components/Chips/style.css';
 // import Icon from 'preact-material-components/Icon';
 import style from './pot.css';
 import RatingStars from '../rating-stars/rating-stars';
+import ratingService from '../../api/rating-api';
 
 export default class Pot {
   render() {
     const ratingChanged = (_newRating) => {
+      ratingService.update(_newRating);
       // console.log(newRating);
     };
 
