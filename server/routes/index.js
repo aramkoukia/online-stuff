@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var { generateToken, sendToken } = require('../utils/token.utils');
-var passport = require('passport');
-var config = require('../config');
-var request = require('request');
+const express = require('express');
+const router = express.Router();
+const { generateToken, sendToken } = require('../utils/token.utils');
+const passport = require('passport');
+const config = require('../config');
+const request = require('request');
+const ratingService = require('../rating-service');
+
 require('../passport')();
 
 router.route('/auth/twitter/reverse')
@@ -82,5 +84,21 @@ router.route('/auth/google')
 
         next();
     }, generateToken, sendToken);
+
+router.get('/ratings', (req, res) => {
+    ratingService.get(req, res);
+});
+
+router.put('/rating', (req, res) => {
+    ratingService.create(req, res);
+});
+
+router.post('/rating', (req, res) => {
+    ratingService.update(req, res);
+});
+
+router.delete('/rating/:id', (req, res) => {
+    ratingService.destroy(req, res);
+});
 
 module.exports = router;

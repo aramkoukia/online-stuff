@@ -1,0 +1,81 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "es6": true,
+    "jest/globals": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "modules": true,
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "pragma": "h"
+    }
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb"
+  ],
+  "plugins": [
+    "react",
+    "jest"
+  ],
+  "globals": {
+    "sleep": 1
+  },
+  "rules": {
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "scope",
+          "$scope",
+          "ngModel"
+        ]
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreUrls": true,
+        "code": 200,
+        "tabWidth": 4
+      }
+    ],
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allowAfterThis": true
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "h"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/react-in-jsx-scope": "off"
+  }
+}
